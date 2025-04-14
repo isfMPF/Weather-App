@@ -16,7 +16,7 @@ import java.time.LocalDate;
 @Service
 public class WeatherIntegration {
 
-    private final String API_KEY="06b18d156b6d461998e84920251404";
+    private final String API_KEY="";
 
 
     public WeatherInfo getWeather(String query, LocalDate date) throws IOException, InterruptedException {
