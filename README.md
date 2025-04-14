@@ -4,7 +4,7 @@
 
 Технологии
 
-Frontend: HTML, CSS, Thymeleaf
+Frontend: HTML, CSS, Bootstrap, Thymeleaf
 
 Backend: Java, Spring Boot.
 
