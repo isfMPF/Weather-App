@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" th:href="@{/css/weather.css}">
+    <title>Прогноз погоды</title>
+</head>
+
+<body class="bg-light">
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="text-center mb-5">
+                <h1 class="display-4 fw-bold text-primary">
+                    <i class="bi bi-cloud-sun"></i> Прогноз погоды
+                </h1>
+                <p class="lead text-muted">Узнайте актуальную погоду в любом городе</p>
+            </div>
+            <form method="post" th:action="@{/weather/query}">
+                <div class="search-container mb-5">
+                    <div class="row g-3">
+                        <div class="col-md-8">
+                            <div class="autocomplete">
+                                <label for="cityInput" class="form-label">Город</label>
+                                <input type="text" class="form-control form-control-lg" name="query" id="cityInput" placeholder="Город" required>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="dateInput" class="form-label">Дата</label>
+                            <input type="date" class="form-control form-control-lg" name="date" id="dateInput">
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" id="getWeatherBtn" class="btn btn-primary btn-lg w-100 py-3">
+                                <i class="bi bi-cloud-sun-fill"></i> Узнать погоду
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            </form>
+
+            <!-- Сообщение об ошибке -->
+            <div th:if="${error != null}" class="alert alert-danger alert-dismissible fade show text-center" role="alert">
+                <i class="bi bi-exclamation-triangle-fill"></i> <span th:text="${error}">Произошла ошибка</span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+
+            <div id="weatherResult" class="weather-card p-4 mb-4" th:if="${weather != null}">
+                <div class="row align-items-center">
+                    <div class="col-md-6 text-center">
+                        <h2 id="cityName" class="fw-bold" th:text="${query}">Москва</h2>
+                        <div id="weatherDate" class="text-muted mb-3"
+                             th:text="${date != null ? #temporals.format(date, 'dd.MM.yyyy') : #temporals.format(T(java.time.LocalDate).now(), 'dd.MM.yyyy')}">
+                            14.04.2025
+                        </div>
+
+
+                    </div>
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-6 mb-3">
+                                <div class="p-3 bg-white rounded-3">
+                                    <div class="text-muted small">Температура</div>
+                                    <div id="weatherTemp" class="fs-3 fw-bold"
+                                         th:text="${weather.temp + '°C'}">+24°C</div>
+                                </div>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <div class="p-3 bg-white rounded-3">
+                                    <div class="text-muted small">Ощущается</div>
+                                    <div id="weatherFeelsLike" class="fs-3 fw-bold"
+                                         th:text="${weather.feelsLike + '°C'}">+22°C</div>
+                                </div>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <div class="p-3 bg-white rounded-3">
+                                    <div class="text-muted small">Влажность</div>
+                                    <div id="weatherHumidity" class="fs-3 fw-bold"
+                                         th:text="${weather.humidity + '%'}">65%</div>
+                                </div>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <div class="p-3 bg-white rounded-3">
+                                    <div class="text-muted small">Ветер</div>
+                                    <div id="weatherWind" class="fs-3 fw-bold"
+                                         th:text="${weather.wind + ' км/ч'}">3 м/с</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
